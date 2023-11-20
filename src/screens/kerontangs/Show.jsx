@@ -3,7 +3,7 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  Image,
+  // Image,
   StyleSheet,
   useWindowDimensions,
 } from 'react-native';
@@ -83,7 +83,7 @@ export default function PostsShowScreen({route}) {
                 </Text>
               </View>
             </View>
-            <Image source={{uri: post.image}} style={styles.image} />
+            {/* <Image source={{uri: post.image}} style={styles.image} /> */}
             <RenderHtml
               tagsStyles={{
                 p: {

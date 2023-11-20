@@ -3,7 +3,7 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  Image,
+  // Image,
   StyleSheet,
   useWindowDimensions,
 } from 'react-native';
@@ -26,7 +26,7 @@ import 'moment/locale/id';
 //import component loading
 import Loading from '../../components/Loading';
 
-export default function PostsShowScreen({route}) {
+export default function SholawatShowScreen({route}) {
   //destruct slug
   const {slug} = route.params;
 
@@ -37,7 +37,7 @@ export default function PostsShowScreen({route}) {
   const [loadingPost, setLoadingPost] = useState(true);
 
   //init state
-  const [post, setPost] = useState({});
+  const [sholawat, setPost] = useState({});
 
   //method fetchDetailPost
   const fetchDetailPost = async () => {
@@ -66,7 +66,7 @@ export default function PostsShowScreen({route}) {
           <Loading />
         ) : (
           <View>
-            <Text style={styles.title}>{post.title}</Text>
+            <Text style={styles.title}>{sholawat.title}</Text>
             <View style={styles.containerUserAndDate}>
               <View style={styles.containerUser}>
                 <MaterialIcons
@@ -74,16 +74,16 @@ export default function PostsShowScreen({route}) {
                   style={styles.iconUser}
                   size={18}
                 />
-                <Text style={styles.textUser}>{post.user.name}</Text>
+                <Text style={styles.textUser}>{sholawat.user.name}</Text>
               </View>
               <View style={styles.containerDate}>
                 <MaterialIcons name="today" style={styles.iconDate} size={18} />
                 <Text style={styles.textDate}>
-                  {moment(post.created_at).format('LL')}
+                  {moment(sholawat.created_at).format('LL')}
                 </Text>
               </View>
             </View>
-            <Image source={{uri: post.image}} style={styles.image} />
+            {/* <Image source={{uri: sholawat.image}} style={styles.image} /> */}
             <RenderHtml
               tagsStyles={{
                 p: {
@@ -101,7 +101,7 @@ export default function PostsShowScreen({route}) {
                 h3: {color: '#333333', fontSize: 16, margin: 0, padding: 0},
               }}
               contentWidth={width}
-              source={{html: post.content}}
+              source={{html: sholawat.content}}
               enableExperimentalMarginCollapsing={true}
               enableExperimentalGhostLinesPrevention={true}
             />

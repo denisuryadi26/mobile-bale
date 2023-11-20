@@ -12,7 +12,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 import 'moment/locale/id';
 
-export default function ListPost({data}) {
+export default function ListSholawat({data}) {
   //ini navigation
   const navigation = useNavigation();
 
@@ -20,7 +20,7 @@ export default function ListPost({data}) {
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        navigation.navigate('PostShow', {
+        navigation.navigate('SholawatShow', {
           slug: data.slug,
         })
       }>

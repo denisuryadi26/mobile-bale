@@ -20,7 +20,7 @@ export default function ListPost({data}) {
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        navigation.navigate('PostShow', {
+        navigation.navigate('KerontangShow', {
           slug: data.slug,
         })
       }>

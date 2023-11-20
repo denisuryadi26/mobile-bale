@@ -24,7 +24,7 @@ export default function TopTabsNavigation() {
               style={
                 focused ? styles.tabBarLabelTextActive : styles.tabBarLabelText
               }>
-              TENTANG DESA
+              TENTANG BALE
             </Text>
           ),
           tabBarIcon: ({focused}) => (
@@ -36,7 +36,7 @@ export default function TopTabsNavigation() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Aparaturs"
         component={Aparaturs}
         options={{
@@ -45,7 +45,7 @@ export default function TopTabsNavigation() {
               style={
                 focused ? styles.tabBarLabelTextActive : styles.tabBarLabelText
               }>
-              PEMERINTAH DESA
+              PERANCANG APLIKASI
             </Text>
           ),
           tabBarIcon: ({focused}) => (
@@ -60,7 +60,7 @@ export default function TopTabsNavigation() {
             fontWeight: 'bold',
           },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

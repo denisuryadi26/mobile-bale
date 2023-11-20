@@ -19,11 +19,11 @@ import Api from '../../services/Api';
 import Loading from '../../components/Loading';
 
 //import component list post
-import ListPost from '../../components/ListSholawat';
+import ListSholawat from '../../components/ListSholawat';
 
 export default function PostsIndexScreen() {
   //init state
-  const [posts, setPosts] = useState([]);
+  const [sholawats, setPosts] = useState([]);
   const [nextPageURL, setNextPageURL] = useState(null);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [loadingLoadMore, setLoadingLoadMore] = useState(false);
@@ -59,7 +59,7 @@ export default function PostsIndexScreen() {
     if (nextPageURL != null) {
       await Api.get(nextPageURL).then(response => {
         //assign data to state
-        setPosts([...posts, ...response.data.data.data]);
+        setPosts([...sholawats, ...response.data.data.data]);
 
         //assign nextPageURL to state
         setNextPageURL(response.data.data.next_page_url);
@@ -92,9 +92,9 @@ export default function PostsIndexScreen() {
             <>
               <FlatList
                 style={styles.container}
-                data={posts}
+                data={sholawats}
                 renderItem={({item, index, separators}) => (
-                  <ListPost data={item} index={index} />
+                  <ListSholawat data={item} index={index} />
                 )}
                 eyExtractor={item => item.id}
                 scrollEnabled={false}

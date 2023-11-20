@@ -10,6 +10,12 @@ import BottomTabsNavigation from './BottomTabsNavigation';
 //import screen post show
 import PostShow from '../screens/posts/Show';
 
+//import screen post show
+import SholawatShow from '../screens/sholawats/Show';
+
+//import screen post show
+import KerontangShow from '../screens/kerontangs/Show';
+
 //import screen product show
 import ProductShow from '../screens/products/Show';
 
@@ -28,6 +34,16 @@ export default function Navigation() {
         <Stack.Screen
           name="PostShow"
           component={PostShow}
+          options={{title: ''}}
+        />
+        <Stack.Screen
+          name="SholawatShow"
+          component={SholawatShow}
+          options={{title: ''}}
+        />
+        <Stack.Screen
+          name="KerontangShow"
+          component={KerontangShow}
           options={{title: ''}}
         />
         <Stack.Screen

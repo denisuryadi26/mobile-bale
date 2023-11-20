@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Api = axios.create({
   //set endpoint API
-  baseURL: 'https://desa-api.appdev.my.id',
+  baseURL: 'https://bale-api.anekaproject.com',
 
   //set header axios
   headers: {

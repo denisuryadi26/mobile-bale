@@ -54,7 +54,7 @@ export default function BottomTabsNavigation() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Posts"
         component={Posts}
         options={{
@@ -73,6 +73,30 @@ export default function BottomTabsNavigation() {
               <Text
                 style={focused ? styles.tabBarTextActive : styles.tabBarText}>
                 BERITA
+              </Text>
+            </View>
+          ),
+        }}
+      /> */}
+      <Tab.Screen
+        name="Sholawats"
+        component={Sholawats}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused}) => (
+            <View style={styles.tabBarIconCenter}>
+              <Image
+                source={require('../assets/icons/newspaper.png')}
+                resizeMode="contain"
+                style={
+                  focused
+                    ? styles.tabBarIconImageActive
+                    : styles.tabBarIconImage
+                }
+              />
+              <Text
+                style={focused ? styles.tabBarTextActive : styles.tabBarText}>
+                SHOLAWAT
               </Text>
             </View>
           ),
@@ -100,6 +124,30 @@ export default function BottomTabsNavigation() {
         }}
       />
       <Tab.Screen
+        name="Kerontangs"
+        component={Kerontangs}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused}) => (
+            <View style={styles.tabBarIconCenter}>
+              <Image
+                source={require('../assets/icons/newspaper.png')}
+                resizeMode="contain"
+                style={
+                  focused
+                    ? styles.tabBarIconImageActive
+                    : styles.tabBarIconImage
+                }
+              />
+              <Text
+                style={focused ? styles.tabBarTextActive : styles.tabBarText}>
+                KERONTANG
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      {/* <Tab.Screen
         name="Products"
         component={Products}
         options={{
@@ -122,7 +170,7 @@ export default function BottomTabsNavigation() {
             </View>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Photos"
         component={Photos}
