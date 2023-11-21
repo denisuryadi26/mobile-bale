@@ -108,9 +108,7 @@ export default function HomeScreen() {
         <View style={styles.headerContainer}>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTextColor}>Selamat Datang di</Text>
-            <Text style={styles.headerTextTwoColor}>
-              Aplikasi Sholawat & Kerontang
-            </Text>
+            <Text style={styles.headerTextTwoColor}>Aplikasi Sangkakala</Text>
           </View>
           <View style={styles.headerImageContainer}>
             <Image
@@ -146,7 +144,7 @@ export default function HomeScreen() {
             style={styles.productIcon}
             size={20}
           />
-          <Text style={styles.productText}>PRODUK DESA</Text>
+          <Text style={styles.productText}>PRODUK</Text>
         </View>
         <View>
           {loadingProducts ? (

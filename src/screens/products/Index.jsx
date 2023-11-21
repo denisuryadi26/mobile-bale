@@ -83,7 +83,7 @@ export default function ProductsIndexScreen() {
             style={styles.labelIcon}
             size={20}
           />
-          <Text style={styles.labelText}>PRODUK DESA</Text>
+          <Text style={styles.labelText}>PRODUK</Text>
         </View>
         <View>
           {loadingProducts ? (
