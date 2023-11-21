@@ -83,7 +83,7 @@ export default function PostsIndexScreen() {
             style={styles.labelIcon}
             size={20}
           />
-          <Text style={styles.labelText}>SHOLAWAT BALE</Text>
+          <Text style={styles.labelText}>SHOLAWAT SANGKAKALA</Text>
         </View>
         <View>
           {loadingPosts ? (

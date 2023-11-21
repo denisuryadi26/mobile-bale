@@ -83,7 +83,7 @@ export default function PostsIndexScreen() {
             style={styles.labelIcon}
             size={20}
           />
-          <Text style={styles.labelText}>KERONTANG BALE</Text>
+          <Text style={styles.labelText}>KERONTANG SANGKAKALA</Text>
         </View>
         <View>
           {loadingPosts ? (

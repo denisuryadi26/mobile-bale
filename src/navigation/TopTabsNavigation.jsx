@@ -24,7 +24,7 @@ export default function TopTabsNavigation() {
               style={
                 focused ? styles.tabBarLabelTextActive : styles.tabBarLabelText
               }>
-              TENTANG BALE
+              TENTANG SANGKAKALA
             </Text>
           ),
           tabBarIcon: ({focused}) => (

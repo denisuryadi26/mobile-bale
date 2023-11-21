@@ -84,7 +84,7 @@ export default function PostsIndexScreen() {
             style={styles.labelIcon}
             size={20}
           />
-          <Text style={styles.labelText}>BERITA BALE</Text>
+          <Text style={styles.labelText}>BERITA</Text>
         </View>
         <View>
           {loadingPosts ? (
