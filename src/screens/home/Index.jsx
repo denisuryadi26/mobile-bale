@@ -175,7 +175,7 @@ export default function HomeScreen() {
           />
           <Text style={styles.postText}>BERITA TERBARU</Text>
         </View>
-        <View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
           {loadingPosts ? (
             <Loading />
           ) : (
