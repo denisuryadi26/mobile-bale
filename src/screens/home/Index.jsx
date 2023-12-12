@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   StyleSheet,
+  RefreshControl,
 } from 'react-native';
 
 import React, {useState, useEffect} from 'react';
@@ -46,7 +47,18 @@ export default function HomeScreen() {
   //init state posts
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Fetch data again
+    fetchDataSliders();
+    fetchDataProducts();
+    fetchDataPosts();
+
+    setRefreshing(false);
+  };
   //method fetchDataSliders
   const fetchDataSliders = async () => {
     //set loading true
@@ -119,7 +131,11 @@ export default function HomeScreen() {
         </View>
       </View>
       <View style={styles.headerBorderBottom}></View>
-      <ScrollView style={{padding: 15}}>
+      <ScrollView
+        style={{padding: 15}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {/* carousel */}
         <View style={styles.sliderContainer}>
           {loadingSliders ? (
@@ -138,7 +154,7 @@ export default function HomeScreen() {
         </View>
 
         {/* products */}
-        <View style={styles.productContainer}>
+        {/* <View style={styles.productContainer}>
           <MaterialCommunityIcons
             name="basket"
             style={styles.productIcon}
@@ -164,7 +180,7 @@ export default function HomeScreen() {
               />
             </ScrollView>
           )}
-        </View>
+        </View> */}
 
         {/* posts / berita */}
         <View style={styles.postContainer}>

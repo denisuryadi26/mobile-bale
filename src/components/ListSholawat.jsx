@@ -26,13 +26,13 @@ export default function ListSholawat({data}) {
       }>
       {/* <Image source={{uri: data.image}} style={styles.image} /> */}
       <View style={styles.block}>
-        <View style={styles.containerCategory}>
+        {/* <View style={styles.containerCategory}>
           <MaterialIcons name="folder" style={styles.iconCategory} size={15} />
           <Text style={styles.textCategory}>{data.category.name}</Text>
-        </View>
+        </View> */}
         <Text style={styles.titlePost}>{data.title}</Text>
 
-        <View style={styles.containerUserAndDate}>
+        {/* <View style={styles.containerUserAndDate}>
           <View style={styles.containerUser}>
             <MaterialIcons name="person" style={styles.iconUser} size={15} />
             <Text style={styles.textUser}>{data.user.name}</Text>
@@ -44,7 +44,7 @@ export default function ListSholawat({data}) {
               {moment(data.created_at).format('LL')}
             </Text>
           </View>
-        </View>
+        </View> */}
       </View>
     </TouchableOpacity>
   );

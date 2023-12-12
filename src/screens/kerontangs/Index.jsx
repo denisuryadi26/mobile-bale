@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -5,78 +6,113 @@ import {
   ScrollView,
   FlatList,
   StyleSheet,
+  TextInput,
+  RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
-
-import React, {useState, useEffect} from 'react';
-
-//import material icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-//import api services
 import Api from '../../services/Api';
-
-//import component loading
 import Loading from '../../components/Loading';
-
-//import component list post
 import ListPost from '../../components/ListKerontang';
 
 export default function PostsIndexScreen() {
-  //init state
-  const [posts, setPosts] = useState([]);
+  const [kerontangs, setPosts] = useState([]);
   const [nextPageURL, setNextPageURL] = useState(null);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [loadingLoadMore, setLoadingLoadMore] = useState(false);
-
-  //method fetchDataPosts
+  const [searchQuery, setSearchQuery] = useState('');
+  const [refreshing, setRefreshing] = useState(false); // State for refresh control
+  const handleSearchSubmit = () => {
+    handleSearch();
+  };
   const fetchDataPosts = async () => {
-    //set loading true
     setLoadingPosts(true);
-
-    await Api.get('/api/public/kerontangs').then(response => {
-      //assign data to state
-      setPosts(response.data.data.data);
-
-      //assign nextPageURL to state
+    await Api.get('/api/public/kerontangs/all').then(response => {
+      setPosts(response.data.data);
       setNextPageURL(response.data.data.next_page_url);
-
-      //set loading false
       setLoadingPosts(false);
     });
   };
 
-  //hook useEffect
-  useEffect(() => {
-    //call method "fetchDataPosts"
-    fetchDataPosts();
-  }, []);
-
-  //method getNextData
   const getNextData = async () => {
-    //set loading true
     setLoadingLoadMore(true);
-
     if (nextPageURL != null) {
       await Api.get(nextPageURL).then(response => {
-        //assign data to state
-        setPosts([...posts, ...response.data.data.data]);
-
-        //assign nextPageURL to state
+        setPosts([...kerontangs, ...response.data.data.data]);
         setNextPageURL(response.data.data.next_page_url);
-
-        //set loading false
         setLoadingLoadMore(false);
       });
     } else {
-      // no data next page
       setLoadingLoadMore(false);
     }
   };
 
+  useEffect(() => {
+    fetchDataPosts();
+  }, []);
+
+  const handleSearch = () => {
+    const filteredKerontangs = kerontangs.filter(item =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+    setPosts(filteredKerontangs);
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchDataPosts();
+    setRefreshing(false);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    fetchDataPosts(); // Fetch initial data after clearing search
+  };
+
   return (
     <SafeAreaView>
-      <ScrollView style={{padding: 15}}>
-        {/* posts / berita */}
+      <ScrollView
+        style={{padding: 15}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }>
+        <View style={styles.searchBarContainer}>
+          {/* Search bar */}
+          <TextInput
+            style={styles.searchBar}
+            placeholder="Cari Kerontang..."
+            placeholderTextColor="black"
+            value={searchQuery}
+            onChangeText={text => setSearchQuery(text)}
+            onSubmitEditing={handleSearchSubmit} // Call handleSearchSubmit on submit
+          />
+
+          {/* Clear button */}
+          {searchQuery.length > 0 && (
+            <TouchableOpacity
+              style={styles.clearButton}
+              onPress={handleClearSearch}>
+              <MaterialCommunityIcons
+                name="close"
+                style={styles.clearIcon}
+                size={20}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* Submit button */}
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={handleSearchSubmit}>
+          <Text style={styles.submitButtonText}>Cari</Text>
+        </TouchableOpacity>
+
+        {/* Refresh button */}
+        {/* <TouchableOpacity style={styles.refreshButton} onPress={handleRefresh}>
+          <Text style={styles.refreshButtonText}>Refresh</Text>
+        </TouchableOpacity> */}
+
         <View style={styles.labelContainer}>
           <MaterialCommunityIcons
             name="newspaper-variant-multiple"
@@ -92,14 +128,20 @@ export default function PostsIndexScreen() {
             <>
               <FlatList
                 style={styles.container}
-                data={posts}
+                data={kerontangs}
                 renderItem={({item, index, separators}) => (
                   <ListPost data={item} index={index} />
                 )}
-                eyExtractor={item => item.id}
+                keyExtractor={item => item.id}
                 scrollEnabled={false}
                 onEndReached={getNextData}
                 onEndReachedThreshold={0.5}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                  />
+                }
               />
               {loadingLoadMore ? <Loading /> : null}
             </>
@@ -130,5 +172,54 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     marginBottom: 20,
+  },
+
+  searchBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  searchBar: {
+    flex: 1,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingLeft: 10,
+    marginBottom: 10,
+    color: 'black', // Add this line to set the text color to black
+  },
+
+  clearButton: {
+    padding: 10,
+  },
+
+  clearIcon: {
+    color: '#333333',
+  },
+
+  refreshButton: {
+    backgroundColor: '#3498db',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+
+  refreshButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+
+  submitButton: {
+    backgroundColor: '#27ae60',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+
+  submitButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
