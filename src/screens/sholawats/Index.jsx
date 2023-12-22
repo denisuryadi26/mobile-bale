@@ -72,7 +72,7 @@ export default function PostsIndexScreen() {
   return (
     <SafeAreaView>
       <ScrollView
-        style={{padding: 15}}
+        style={{padding: 15, marginBottom: 110}} // Add marginBottom here
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }>

@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -5,80 +6,60 @@ import {
   ScrollView,
   FlatList,
   StyleSheet,
+  RefreshControl,
 } from 'react-native';
-
-import React, {useState, useEffect} from 'react';
-
-//import material icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-//import api services
 import Api from '../../services/Api';
-
-//import component loading
 import Loading from '../../components/Loading';
-
-//import component list photo
 import ListPhoto from '../../components/ListPhoto';
 
-//import component list post
-
 export default function PhotosScreen() {
-  //init state
   const [photos, setPhotos] = useState([]);
   const [nextPageURL, setNextPageURL] = useState(null);
   const [loadingPhotos, setLoadingPhotos] = useState(true);
   const [loadingLoadMore, setLoadingLoadMore] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  //method fetchDataPhotos
   const fetchDataPhotos = async () => {
-    //set loading true
     setLoadingPhotos(true);
-
     await Api.get('/api/public/photos').then(response => {
-      //assign data to state
       setPhotos(response.data.data.data);
-
-      //assign nextPageURL to state
       setNextPageURL(response.data.data.next_page_url);
-
-      //set loading false
       setLoadingPhotos(false);
     });
   };
 
-  //hook useEffect
   useEffect(() => {
-    //call method "fetchDataPhotos"
     fetchDataPhotos();
   }, []);
 
-  //method getNextData
   const getNextData = async () => {
-    //set loading true
     setLoadingLoadMore(true);
 
     if (nextPageURL != null) {
       await Api.get(nextPageURL).then(response => {
-        //assign data to state
-        setPhotos([...posts, ...response.data.data.data]);
-
-        //assign nextPageURL to state
+        setPhotos([...photos, ...response.data.data.data]);
         setNextPageURL(response.data.data.next_page_url);
-
-        //set loading false
         setLoadingLoadMore(false);
       });
     } else {
-      // no data next page
       setLoadingLoadMore(false);
     }
   };
 
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchDataPhotos();
+    setRefreshing(false);
+  };
+
   return (
     <SafeAreaView>
-      <ScrollView style={{padding: 15}}>
-        {/* posts / berita */}
+      <ScrollView
+        style={{padding: 15}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }>
         <View style={styles.labelContainer}>
           <MaterialCommunityIcons
             name="image-multiple"
@@ -99,7 +80,7 @@ export default function PhotosScreen() {
                 renderItem={({item, index, separators}) => (
                   <ListPhoto data={item} index={index} />
                 )}
-                eyExtractor={item => item.id}
+                keyExtractor={item => item.id}
                 scrollEnabled={false}
                 onEndReached={getNextData}
                 onEndReachedThreshold={0.5}

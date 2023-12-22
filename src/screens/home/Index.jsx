@@ -35,6 +35,10 @@ import ListProductHome from '../../components/ListProductHome';
 //import component list post
 import ListPost from '../../components/ListPost';
 
+import ListSholawat from '../../components/ListSholawat';
+
+import ListKerontang from '../../components/ListKerontang';
+
 export default function HomeScreen() {
   //init state sliders
   const [loadingSliders, setLoadingSliders] = useState(true);
@@ -47,6 +51,10 @@ export default function HomeScreen() {
   //init state posts
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [loadingSholawats, setLoadingSholawats] = useState(true);
+  const [sholawats, setSholawats] = useState([]);
+  const [loadingKerontangs, setLoadingKerontangs] = useState(true);
+  const [kerontangs, setKerontangs] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = () => {
@@ -56,6 +64,8 @@ export default function HomeScreen() {
     fetchDataSliders();
     fetchDataProducts();
     fetchDataPosts();
+    fetchDataSholawats();
+    fetchDataKerontangs();
 
     setRefreshing(false);
   };
@@ -101,6 +111,34 @@ export default function HomeScreen() {
     });
   };
 
+  //method fetchDataSholawats
+  const fetchDataSholawats = async () => {
+    //set loading true
+    setLoadingSholawats(true);
+
+    await Api.get('/api/public/sholawats_home').then(response => {
+      //assign data to state
+      setSholawats(response.data.data);
+
+      //set loading false
+      setLoadingSholawats(false);
+    });
+  };
+
+  //method fetchDataSholawats
+  const fetchDataKerontangs = async () => {
+    //set loading true
+    setLoadingKerontangs(true);
+
+    await Api.get('/api/public/kerontangs_home').then(response => {
+      //assign data to state
+      setKerontangs(response.data.data);
+
+      //set loading false
+      setLoadingKerontangs(false);
+    });
+  };
+
   //hook useEffect
   useEffect(() => {
     //call method "fetchDataSliders"
@@ -111,6 +149,12 @@ export default function HomeScreen() {
 
     //call method "fetchDataPosts"
     fetchDataPosts();
+
+    //call method "fetchDataSholawats"
+    fetchDataSholawats();
+
+    //call method "fetchDataKerontangs"
+    fetchDataKerontangs();
   }, []);
 
   return (
@@ -197,10 +241,64 @@ export default function HomeScreen() {
           ) : (
             <>
               <FlatList
-                style={{flex: 1, marginTop: 10, marginBottom: 260}}
+                style={{flex: 1, marginTop: 10, marginBottom: 10}}
                 data={posts}
                 renderItem={({item, index, separators}) => (
                   <ListPost data={item} index={index} />
+                )}
+                eyExtractor={item => item.id}
+                scrollEnabled={false}
+              />
+            </>
+          )}
+        </View>
+
+        {/* sholawats */}
+        <View style={styles.sholawatContainer}>
+          <MaterialCommunityIcons
+            name="newspaper-variant-multiple"
+            style={styles.sholawatIcon}
+            size={20}
+          />
+          <Text style={styles.sholawatText}>SHOLAWAT TERBARU</Text>
+        </View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          {loadingSholawats ? (
+            <Loading />
+          ) : (
+            <>
+              <FlatList
+                style={{flex: 1, marginTop: 10, marginBottom: 10}}
+                data={sholawats}
+                renderItem={({item, index, separators}) => (
+                  <ListSholawat data={item} index={index} />
+                )}
+                eyExtractor={item => item.id}
+                scrollEnabled={false}
+              />
+            </>
+          )}
+        </View>
+
+        {/* kerontangs */}
+        <View style={styles.sholawatContainer}>
+          <MaterialCommunityIcons
+            name="newspaper-variant-multiple"
+            style={styles.sholawatIcon}
+            size={20}
+          />
+          <Text style={styles.sholawatText}>KERONTANG TERBARU</Text>
+        </View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          {loadingKerontangs ? (
+            <Loading />
+          ) : (
+            <>
+              <FlatList
+                style={{flex: 1, marginTop: 10, marginBottom: 260}}
+                data={kerontangs}
+                renderItem={({item, index, separators}) => (
+                  <ListKerontang data={item} index={index} />
                 )}
                 eyExtractor={item => item.id}
                 scrollEnabled={false}
@@ -282,6 +380,21 @@ const styles = StyleSheet.create({
   },
 
   postText: {
+    color: '#333333',
+    fontWeight: 'bold',
+  },
+
+  sholawatContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
+  },
+
+  sholawatIcon: {
+    marginRight: 5,
+    color: '#333333',
+  },
+
+  sholawatText: {
     color: '#333333',
     fontWeight: 'bold',
   },
